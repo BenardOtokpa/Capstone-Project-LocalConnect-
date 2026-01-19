@@ -7,6 +7,25 @@ const otpInputs = document.querySelectorAll(".otp-container input");
 const retryOtp = document.getElementById("retry-otp");
 const goToDashboard = document.getElementById("go-to-dashboard");
 
+const API_BASE_URL = "http://localhost:8000"; // change when deployed
+
+async function apiRequest(path, method, body) {
+  const res = await fetch(`${API_BASE_URL}${path}`, {
+    method,
+    headers: { "Content-Type": "application/json" },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+
+  const data = await res.json().catch(() => ({}));
+
+  if (!res.ok) {
+    const message = data?.message || `Request failed (${res.status})`;
+    throw new Error(message);
+  }
+
+  return data;
+}
+
 // Tab Switching
 tabs.forEach((tab) => {
   tab.addEventListener("click", () => {
@@ -59,7 +78,7 @@ otpInputs.forEach((input, index) => {
 
     // Auto submit if all inputs are filled
     const allFilled = Array.from(otpInputs).every(
-      (inp) => inp.value.length === 1
+      (inp) => inp.value.length === 1,
     );
     if (allFilled) {
       document.getElementById("otp-form").dispatchEvent(new Event("submit"));
@@ -89,27 +108,71 @@ goToDashboard?.addEventListener("click", () => {
 });
 
 // Form Submissions
-document.getElementById("signup-form").addEventListener("submit", function (e) {
-  e.preventDefault();
-  // In production: Send signup data to server
-  // For demo: Show success screen
-  switchPage("success");
-});
+document
+  .getElementById("signup-form")
+  .addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-document.getElementById("login-form").addEventListener("submit", function (e) {
-  e.preventDefault();
-  // In production: Send login data to server
-  // For demo: Simulate login
-  const email = this.querySelector('input[type="email"]').value;
-  const password = this.querySelector('input[type="password"]').value;
+    const payload = {
+      businessName: this.businessName.value.trim(),
+      email: this.email.value.trim(),
+      contactPhone: this.contactPhone.value.trim(),
+      category: this.category.value,
+      password: this.password.value,
+      confirmPassword: this.confirmPassword.value,
+      acceptedTerms: this.acceptedTerms.checked,
+    };
 
-  // Simple validation
-  if (email && password) {
-    alert(`Logging in with:\nEmail: ${email}\nPassword: ${password}`);
-    // Redirect in production:
-    // window.location.href = '/dashboard';
-  }
-});
+    // ✅ Log to console (what you asked for)
+    console.log("Signup Payload:", payload);
+
+    // Basic validation
+    if (!payload.acceptedTerms) {
+      alert("You must accept the terms.");
+      return;
+    }
+
+    try {
+      const response = await apiRequest(
+        "/api/auth/business/register",
+        "POST",
+        payload,
+      );
+
+      switchPage("success");
+    } catch (err) {
+      console.error(err);
+      alert(err.message || "Signup failed");
+    }
+  });
+
+document
+  .getElementById("login-form")
+  .addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    try {
+      const email = this.querySelector('input[type="email"]')?.value?.trim();
+      const password = this.querySelector('input[type="password"]')?.value;
+
+      if (!email || !password) {
+        alert("Email and password are required.");
+        return;
+      }
+
+      const data = await apiRequest("/api/auth/login", "POST", {
+        email,
+        password,
+      });
+
+      if (data.token) localStorage.setItem("accessToken", data.token);
+
+      // redirect to dashboard
+      window.location.href = "/dashboard";
+    } catch (err) {
+      alert(err.message || "Login failed");
+    }
+  });
 
 document.getElementById("forgot-form").addEventListener("submit", function (e) {
   e.preventDefault();

@@ -85,65 +85,97 @@
     </header>
     <main>
       <!--signup form-->
-      <form action="" id="signup-form" class="auth-form" data-page="signup">
-        <div class="input-group">
-          <label>Business Name</label>
-          <input type="text" placeholder="Business Name" required />
-        </div>
-        <div class="input-group">
-          <label>Business Email</label>
-          <input type="email" placeholder="businessemail@gmail.com" required />
-        </div>
-        <div class="input-group">
-          <label>Contact Information</label>
-          <input type="tel" placeholder="+234**********" required />
-        </div>
-        <div class="input-group">
-          <label for="">Select Category</label>
-          <select required>
-            <option value="Restaurant..." selected>Restaurant/Cafe</option>
-            <option value="tours...">Tours & Experiences</option>
-            <option value="shopping...">Shopping & Artisan</option>
-            <option value="wellness...">Wellness & Beauty</option>
-            <option value="transport...">Transport & Convenience</option>
-            <option value="others">Others</option>
-          </select>
-        </div>
-        <div class="input-group">
-          <label>Password</label>
-          <input type="password" placeholder="**********" required />
-          <i class="fas fa-eye toggle-password"></i>
-          <small>must be at least 8 characters long.</small>
-        </div>
-        <div class="input-group">
-          <label>Confirm Password</label>
-          <input type="password" placeholder="**********" required />
-        </div>
-        <div class="checkbox-group">
-          <div class="check">
-          <input type="checkbox" id="terms" />
-          <label for="terms"
-            >I agree to the <a href="/">Terms of Services</a> and
-            <a href="/">Privacy Policy</a></label
-          >
-          </div>
-          <span
-            > <small>By creating an acoount, you agree to LocalConnect's platform
-            guidelines</small></span
-          >
-        </div>
-        <button class="primary-btn" type="button">Create Account</button>
-        <div class="divider">
-          <span>or</span>
-        </div>
-        <button class="primary-btn google-btn" type="button">
-          <i class="fab fa-google"></i>Continue with Google <span><img src="google-icon.png" alt="google-logo"></span>
-        </button>
-        <p class="switch-form">
-          Already have an account?
-          <a href="#" class="switch-link" data-target="login">Log In</a>
-        </p>
-      </form>
+      <form id="signup-form" class="auth-form active" data-page="signup">
+  
+  <div class="input-group">
+    <label>Business Name</label>
+    <input
+      type="text"
+      name="businessName"
+      id="businessName"
+      placeholder="Business Name"
+      required
+    />
+  </div>
+
+  <div class="input-group">
+    <label>Business Email</label>
+    <input
+      type="email"
+      name="email"
+      id="email"
+      placeholder="businessemail@gmail.com"
+      required
+    />
+  </div>
+
+  <div class="input-group">
+    <label>Contact Information</label>
+    <input
+      type="tel"
+      name="contactPhone"
+      id="contactPhone"
+      placeholder="+234**********"
+      required
+    />
+  </div>
+
+  <div class="input-group">
+    <label>Select Category</label>
+    <select name="category" id="category" required>
+  <option value="">Select category</option>
+  <option value="restaurant">Restaurant / Cafe</option>
+  <option value="tours">Tours & Experiences</option>
+  <option value="shopping">Shopping & Artisan</option>
+  <option value="wellness">Wellness & Beauty</option>
+  <option value="transport">Transport & Convenience</option>
+  <option value="others">Others</option>
+</select>
+
+  </div>
+
+  <div class="input-group">
+    <label>Password</label>
+    <input
+      type="password"
+      name="password"
+      id="password"
+      placeholder="**********"
+      required
+    />
+    <small>Must be at least 8 characters long.</small>
+  </div>
+
+  <div class="input-group">
+    <label>Confirm Password</label>
+    <input
+      type="password"
+      name="confirmPassword"
+      id="confirmPassword"
+      placeholder="**********"
+      required
+    />
+  </div>
+
+  <div class="checkbox-group">
+    <input
+      type="checkbox"
+      name="acceptedTerms"
+      id="acceptedTerms"
+      required
+    />
+    <label for="acceptedTerms">
+      I agree to the Terms of Services and Privacy Policy
+    </label>
+  </div>
+
+  <!-- 🔥 MUST be submit -->
+  <button class="primary-btn" type="submit">
+    Create Account
+  </button>
+
+</form>
+
 
       <!--Login page-->
       <form id="login-form" class="auth-form" data-page="login">
