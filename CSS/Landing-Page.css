@@ -52,7 +52,7 @@ body {
 .hero {
   position: relative;
   height: 480px;
-  background-image: url("Images and icons/hero-town 1.png");
+  background-image: url("https://res.cloudinary.com/dzkccvodw/image/upload/v1768058622/hero-town_1_cfn9s1.png");
   background-size: cover;
   background-position: center;
   color: #ffffff;
